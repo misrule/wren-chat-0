@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Head from "next/head";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { GetServerSidePropsContext } from "next";
 import { getSession } from "@auth0/nextjs-auth0";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRobot } from "@fortawesome/free-solid-svg-icons";
@@ -47,7 +48,9 @@ export default function Home() {
   );
 }
 
-export const getServerSideProps = async (context) => {
+
+
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const session = await getSession(context.req, context.res);
   if (session) {
     return {
@@ -59,3 +62,16 @@ export const getServerSideProps = async (context) => {
   }
   return { props: {} };
 };
+
+// export const getServerSideProps = async (context) => {
+//   const session = await getSession(context.req, context.res);
+//   if (session) {
+//     return {
+//       redirect: {
+//         destination: "/chat",
+//         permanent: false,
+//       },
+//     };
+//   }
+//   return { props: {} };
+// };

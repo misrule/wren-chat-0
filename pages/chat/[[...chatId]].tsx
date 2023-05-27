@@ -186,7 +186,7 @@ export default function Chat({ chatId, title, messages = [] }: Props) {
   );
 }
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps = async (ctx: any) => {
   const chatId = ctx.params?.chatId?.[0] || null;
 
   if (chatId) {
@@ -220,7 +220,7 @@ export const getServerSideProps = async (ctx) => {
       props: {
         chatId,
         title: chat?.title,
-        messages: chat?.messages.map((message) => ({
+        messages: chat?.messages.map((message: any) => ({
           ...message,
           _id: uuid(),
         })),

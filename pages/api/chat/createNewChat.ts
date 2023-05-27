@@ -13,6 +13,7 @@ export default async function handler(
     const { prompt } = req.body;
 
     // validate prompt data.
+    // TODO: DRY this validation logic.
     if (!prompt || prompt.length > MAX_PROMPT_LENGTH) {
       res.status(422).json({
         message: `Prompt is required and must be less than ${MAX_PROMPT_LENGTH} characters.`,
