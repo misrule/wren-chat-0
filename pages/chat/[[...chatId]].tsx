@@ -1,19 +1,16 @@
-import ChatSidebar from "@/components/ChatSidebar";
 import Head from "next/head";
-import { NextResponse } from "next/server";
 import { streamReader } from "openai-edge-stream";
 import { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
-import Message from "@/components/Message";
 import { useRouter } from "next/router";
-import { GetServerSideProps } from "next";
+import { NextPageContext } from "next";
 import { getSession } from "@auth0/nextjs-auth0";
 import clientPromise from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
-import { faRobot } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import NewChat from "@/components/NewChat";
+import { IncomingMessage, ServerResponse } from "http";
+import ChatSidebar from "@/components/ChatSidebar";
 import PromptInput from "@/components/PromptInput";
+import ChatHistory from "@/components/ChatHistory";
 
 interface ChatMessage {
   _id: string;
@@ -30,36 +27,33 @@ interface Props {
 interface PromptInputProps {
   newUserPrompt: (prompt: string) => void;
   isGeneratingResponse: (generating: boolean) => void;
-};
+}
 
 export default function Chat({ chatId, title, messages = [] }: Props) {
-  
   // The id of the chat we're currently viewing.
   const [newChatId, setNewChatId] = useState<string | null>(null);
-  
+
   // The new messages we recieve from the model during this session. This gets
   // concatenated with the persisted messages from previous sessions.
   const [newChatMessages, setNewChatMessages] = useState<ChatMessage[]>([]);
-  
+
   // An accumulator for messages streaming from the model.
   const [incomingMessage, setIncomingMessage] = useState("");
-  
+
   // The full message we send to the model, including the prompt and the user's message.
   const [fullMessage, setFullMessage] = useState("");
 
   // The initial chat-id we got from the server. We use this to track if the user
   // has navigated to a new chat while we're waiting for a response from the model.
   const [originalChatId, setOriginalChatId] = useState(chatId);
-  
+
   // The prompt we send to the model.
   // const [userPrompt, setUserPrompt] = useState("");
   // Flag indicating whether we're waiting for a response from the model.
   const [generatingResponse, setGeneratingResponse] = useState(false);
-  
 
   const routeHasChanged = originalChatId !== chatId;
   const router = useRouter();
-
 
   // When our chat id changes, reset the new chat messages
   useEffect(() => {
@@ -125,6 +119,7 @@ export default function Chat({ chatId, title, messages = [] }: Props) {
 
     const reader = data.getReader();
     let content = "";
+
     await streamReader(reader, (message) => {
       console.log("MESSAGE: ", message);
 
@@ -140,88 +135,41 @@ export default function Chat({ chatId, title, messages = [] }: Props) {
     setGeneratingResponse(false);
   };
 
-
-  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   handleNewUserPrompt(userPrompt);
-  // };
-
+  // List of all messages in this chat, including the new messages we've
+  // recieved from the model during this session.
   const allMessages = [...messages, ...newChatMessages];
+
   return (
     <div>
       <Head>
         <title>New Chat</title>
       </Head>
+
       <div className="grid h-screen grid-cols-[260px_1fr]">
         <ChatSidebar chatId={chatId} />
+
         <div className="flex flex-col overflow-hidden bg-gray-700">
+          <ChatHistory
+            messages={allMessages}
+            incomingMessage={incomingMessage}
+            routeHasChanged={routeHasChanged}
+          />
 
-          <div className="flex flex-1 flex-col-reverse overflow-y-scroll text-white">
-            
-            {/* INITIAL MESSAGE */}
-            {allMessages.length === 0 && !incomingMessage && (
-              <NewChat />
-            )}
-
-            {/* CHAT-HISTORY COMPONENT (Main Chat Window) */}
-            {allMessages.length > 0 && (
-              <div className="mb-auto">
-                {/* TODO:Fix message scrolling.
-                The flex and flex-col-reverse above, and this inner div are
-                a hack to make the messages scroll to the bottom by default.
-                Ideally, the messages should only scroll to the bottom when
-                the user is *already* scrolled to the bottom, but that's a bit more
-                complicated to implement.
-              */}
-                {allMessages.map((message) => (
-                  <Message
-                    key={message._id}
-                    role={message.role}
-                    content={message.content}
-                  />
-                ))}
-                {incomingMessage && !routeHasChanged && (
-                  <Message role="assistant" content={incomingMessage} />
-                )}
-                {incomingMessage && routeHasChanged && (
-                  <Message
-                    role="notice"
-                    content="One message at a time. Please allow responses to finish before sending another message."
-                  />
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* FOOTER COMPONENT (Message Input) */}
           <footer className="bg-gray-800 p-10">
-            <PromptInput newUserPrompt={handleNewUserPrompt} generatingResponse={generatingResponse}/>
-            {/* <form onSubmit={handleSubmit}>
-              <fieldset className="flex gap-2" disabled={generatingResponse}>
-                <textarea
-                  value={userPrompt}
-                  onChange={(e) => setUserPrompt(e.target.value)}
-                  className="w-full resize-none rounded-md bg-gray-700 p-2 text-white
-                  focus:border-emerald-500 focus:bg-gray-600 focus:outline-emerald-500"
-                  placeholder={generatingResponse ? "" : "Send a message..."}
-                />
-                <button className="btn" type="submit">
-                  Send
-                </button>
-              </fieldset>
-            </form> */}
-
+            <PromptInput
+              newUserPrompt={handleNewUserPrompt}
+              generatingResponse={generatingResponse}
+            />
           </footer>
-
         </div>
       </div>
     </div>
   );
 }
-//  
-export const getServerSideProps = async (ctx: any) => {
-  const chatId = ctx.params?.chatId?.[0] || null;
-
+//
+export const getServerSideProps = async (ctx: NextPageContext) => {
+  const chatId = ctx.query.chatId?.[0] || null;
+  
   // Check if URL has a valid chat id. If not, redirect to /chat.
   if (chatId) {
     // TODO: DRY this object id validation/redirect logic.
@@ -236,8 +184,13 @@ export const getServerSideProps = async (ctx: any) => {
       };
     }
 
+    // FIXME: The type-casting is gross. Is there a better way to do this?
+    // Why would request/response be undefined?
+    const request = ctx.req as IncomingMessage;
+    const response = ctx.res as ServerResponse;
+
     // Check if chat exists and belongs to user. If not, redirect to /chat.
-    const session = await getSession(ctx.req, ctx.res);
+    const session = await getSession(request , response);
     const client = await clientPromise;
     const db = client.db("wren0");
     const chat = await db.collection("chats").findOne({

@@ -24,7 +24,7 @@ export const PromptInput = ({
     <form onSubmit={handleSubmit}>
       <fieldset className="flex gap-2" disabled={generatingResponse}>
         <textarea
-          value={userPrompt}
+          value={generatingResponse ? 'Thinking...' : userPrompt}
           onChange={(e) => setUserPrompt(e.target.value)}
           className="w-full resize-none rounded-md bg-gray-700 p-2 text-white
         focus:border-emerald-500 focus:bg-gray-600 focus:outline-emerald-500"
