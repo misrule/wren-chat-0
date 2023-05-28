@@ -17,8 +17,8 @@ export default function Message({ role, content }: Props) {
       role === "assistant"
         ? "bg-gray-600"
         : role === "notice"
-          ? "bg-red-600"
-          : ""
+        ? "bg-red-600"
+        : ""
     }`}
     >
       <div>
