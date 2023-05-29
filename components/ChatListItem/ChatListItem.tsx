@@ -6,20 +6,19 @@ import Link from "next/link";
 interface ChatListItemProps {
   chatId: string;
   title: string;
+  active?: boolean;
 }
 
-export const ChatListItem = ({ chatId, title }: ChatListItemProps) => {
-  const upload = () => alert("Uploading...");
-  const edit = () => alert("Editing...");
-  const deleteFn = () => alert(`DELETE: ${title}`);
+export const ChatListItem = ({ active, chatId, title }: ChatListItemProps) => {
+
   
   return (
     <div className="relative">
       <Link
         key={chatId}
         href={`/chat/${chatId}`}
-        className="m-2 p-2 flex items-center gap-4 rounded-md hover:bg-gray-800
-        "
+        className={`m-2 p-2 flex items-center gap-4 rounded-md hover:bg-gray-800
+        ${active ? 'bg-gray-700' : ''}`}
       >
         <div className="chat-list-icon">
           <FontAwesomeIcon icon={faMessage} className="text-white/50"/>
@@ -29,9 +28,7 @@ export const ChatListItem = ({ chatId, title }: ChatListItemProps) => {
         </div>
         <div className="chat-list-controls ">
           <ListItemControls 
-            edit={edit}
-            upload={upload}
-            deleteFn={deleteFn}
+            chatId={chatId}
           />
         </div>
       </Link>

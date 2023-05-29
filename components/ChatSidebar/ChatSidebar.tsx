@@ -24,7 +24,6 @@ export default function ChatSidebar({ chatId }: Props) {
         method: "GET",
       });
       const data = await res.json();
-      console.log("CHAT LIST: ", data);
       setChatList(data || []);
     };
     loadChatList();
@@ -45,7 +44,9 @@ export default function ChatSidebar({ chatId }: Props) {
       {/* CHAT LIST */}
       <div className="flex-1 overflow-auto bg-gray-950">
         {chatList.map((chat) => (
-          <ChatListItem key={chat._id} chatId={chat._id} title={chat.title} />
+          <ChatListItem key={chat._id} chatId={chat._id} title={chat.title} 
+          active={chatId === chat._id} />
+          
           // <Link
           //   key={chat._id}
           //   href={`/chat/${chat._id}`}

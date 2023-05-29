@@ -12,6 +12,8 @@ import ChatSidebar from "@/components/ChatSidebar";
 import PromptInput from "@/components/PromptInput";
 import ChatHistory from "@/components/ChatHistory";
 
+import { ChatFunctionsProvider } from "@/context/ChatContext";
+
 interface ChatMessage {
   _id: string;
   role: string;
@@ -84,6 +86,11 @@ export default function Chat({ chatId, title, messages = [] }: Props) {
     }
   }, [newChatId, generatingResponse, router]);
 
+  /**
+   * Send the user's prompt to the model and add the response to the chat history.
+   * @param newPrompt
+   * @returns
+   */
   const handleNewUserPrompt = async (newPrompt: string) => {
     setGeneratingResponse(true);
     setOriginalChatId(chatId);
@@ -135,11 +142,35 @@ export default function Chat({ chatId, title, messages = [] }: Props) {
     setGeneratingResponse(false);
   };
 
+  const handleDeleteChat = async (chatId: string) => {
+    console.log("DELETE-CHAT: ", chatId);
+    // const response = await fetch("/api/chat/deleteChat", {
+    //   method: "DELETE",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({ chatId }),
+    // }); 
+  }
+  const handleEditChatName = async (newName: string) => {
+    console.log("EDIT-CHAT-NAME: ", newName);
+  }
+  const handleShareChate = async (email: string) => {
+    console.log("SHARE-CHAT: ", email);
+  }
+
+  const chatFunctions = {
+    editChatName: handleEditChatName,
+    deleteChat: handleDeleteChat,
+    shareChat: handleShareChate
+  }
+
   // List of all messages in this chat, including the new messages we've
   // recieved from the model during this session.
   const allMessages = [...messages, ...newChatMessages];
 
   return (
+    <ChatFunctionsProvider functions={chatFunctions}>
     <div>
       <Head>
         <title>New Chat</title>
@@ -164,12 +195,13 @@ export default function Chat({ chatId, title, messages = [] }: Props) {
         </div>
       </div>
     </div>
+    </ChatFunctionsProvider>
   );
 }
 //
 export const getServerSideProps = async (ctx: NextPageContext) => {
   const chatId = ctx.query.chatId?.[0] || null;
-  
+
   // Check if URL has a valid chat id. If not, redirect to /chat.
   if (chatId) {
     // TODO: DRY this object id validation/redirect logic.
@@ -190,7 +222,7 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
     const response = ctx.res as ServerResponse;
 
     // Check if chat exists and belongs to user. If not, redirect to /chat.
-    const session = await getSession(request , response);
+    const session = await getSession(request, response);
     const client = await clientPromise;
     const db = client.db("wren0");
     const chat = await db.collection("chats").findOne({

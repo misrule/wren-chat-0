@@ -3,24 +3,36 @@ import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useChatFunctions } from "@/context/ChatContext";
 
 interface ListItemControlProps {
-  deleteFn: () => void;
-  edit: () => void;
-  upload: () => void;
+  chatId: string;
 }
-export const ListItemControls = ({ upload, edit, deleteFn }: ListItemControlProps) => {
+export const ListItemControls = ({ chatId }: ListItemControlProps) => {
+  
+  const { editChatName, deleteChat, shareChat } = useChatFunctions();
+
+  const handleDelete = () => {
+    deleteChat(chatId)
+  }
+  const handleShare = () => {
+    shareChat("With my friend")
+  }
+  const handleEdit = () => {
+    editChatName("Now how about that?")
+  }
+  
   return (
     <div className="list-item-controls">
-      <button className="ctrl-btn" onClick={upload}>
+      <button className="ctrl-btn" onClick={handleShare}>
        <FontAwesomeIcon icon={faArrowUpFromBracket} />
       </button>
     
-      <button className="ctrl-btn" onClick={edit}>
+      <button className="ctrl-btn" onClick={handleEdit}>
         <FontAwesomeIcon icon={faPen} />
       </button>
 
-      <button className="ctrl-btn" onClick={deleteFn}>
+      <button className="ctrl-btn" onClick={handleDelete}>
         <FontAwesomeIcon icon={faTrash} />
       </button>
 

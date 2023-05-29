@@ -12,7 +12,7 @@
   }
   
   .list-item-controls {
-    @apply flex gap-2 border w-fit absolute transition-all duration-[0.2s] ease-[ease-in-out] pl-2 p-0.5 rounded-[2rem] border-solid border-transparent right-0 top-[0.15rem] hover:border hover:bg-gray-800 hover:border-solid hover:border-[#888];
+    @apply flex gap-2 border w-fit absolute transition-all duration-[0.2s] ease-[ease-in-out] pl-2 p-0.5 rounded-[2rem] border-solid border-transparent right-0 top-[0.3em] hover:border hover:bg-gray-800 hover:border-solid hover:border-[#888];
     clip-path: ellipse(101% 180% at 180% 50%);
   }
   
