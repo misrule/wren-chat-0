@@ -10,4 +10,23 @@
   .side-menu-item {
     @apply m-2 p-2 flex items-center gap-4 rounded-md hover:bg-gray-800;
   }
+  
+  .list-item-controls {
+    @apply flex gap-2 border w-fit absolute transition-all duration-[0.2s] ease-[ease-in-out] pl-2 p-0.5 rounded-[2rem] border-solid border-transparent right-0 top-[0.3em] hover:border hover:bg-gray-800 hover:border-solid hover:border-[#888];
+    clip-path: ellipse(101% 180% at 180% 50%);
+  }
+  
+  .list-item-controls:hover {
+    clip-path: ellipse(100% 100% at 50% 50%);
+  }
+  
+  .ctrl-btn {
+    @apply border rounded flex justify-center items-center w-6 aspect-[1/1] cursor-pointer text-inherit border-solid border-transparent top-0 hover:border hover:border-solid hover:border-[#555];
+    background: none;
+  }
+
+  .vis {
+    @apply text-[0.8em] text-white/40 pt-[5px] p-[3px] rounded-[50%] hover:text-white;
+  }
+
 }

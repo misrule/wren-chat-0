@@ -1,0 +1,57 @@
+.list-item-controls {
+  display: flex;
+  gap: .5rem;
+
+  clip-path: ellipse(101% 180% at 180% 50%);
+
+  border: 1px solid transparent;
+  border-radius: 2rem;
+  padding: 2px;
+  padding-left: .5rem;
+  
+  width: fit-content;
+  
+  position: absolute;
+  top: .15rem;
+  right: 0;
+  
+
+  
+  transition: all .2s ease-in-out;
+  &:hover {
+    clip-path: ellipse(100% 100% at 50% 50%);
+    border: 1px solid #888;
+    
+     background-color: rgb(31 41 55 / 1);
+  }
+  .ctrl-btn {
+    top: 0;
+    border: 1px solid transparent;
+    border-radius: 4px;  
+    background: none;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.5rem;
+    aspect-ratio: 1/1;
+    cursor: pointer;
+    
+    color: inherit;
+    
+    &:hover {
+      border: 1px solid #555;      
+    }
+  }
+  .vis {
+
+    border-radius: 50%;
+    font-size: .8em;
+    padding: 3px;
+    padding-top: 5px;
+    color: rgba(255 255 255 / .6);
+    &:hover {
+          color: rgba(255 255 255 / 1);
+    }
+  }  
+}

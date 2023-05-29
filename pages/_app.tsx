@@ -5,6 +5,8 @@ import { UserProvider } from "@auth0/nextjs-auth0/client";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { Outfit } from "next/font/google";
+
+
 config.autoAddCss = false;
 
 const outfit = Outfit({

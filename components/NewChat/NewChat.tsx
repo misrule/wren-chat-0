@@ -14,9 +14,7 @@ export const NewChat = () => {
         </h1>
         <div className="p-2 mt-6 border border-white">
             <p>
-                Please note that I am an experimental AI. I might act weird sometimes.
-                <br />
-                You should consider this charming.    
+                Please note that I am an experimental AI. I might act weird sometimes.   
             </p>
         </div>
       </div>
