@@ -143,14 +143,10 @@ export default function Chat({ chatId, title, messages = [] }: Props) {
   };
 
   const handleDeleteChat = async (chatId: string) => {
-    console.log("DELETE-CHAT: ", chatId);
-    // const response = await fetch("/api/chat/deleteChat", {
-    //   method: "DELETE",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ chatId }),
-    // }); 
+    //console.log("DELETE-CHAT: ", chatId);
+    const response = await fetch(`/api/chat/${chatId}`, {
+      method: "DELETE"
+    }); 
   }
   const handleEditChatName = async (newName: string) => {
     console.log("EDIT-CHAT-NAME: ", newName);

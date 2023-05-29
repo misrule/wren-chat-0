@@ -7,32 +7,23 @@ import { useChatFunctions } from "@/context/ChatContext";
 
 interface ListItemControlProps {
   chatId: string;
+  deleteChat: () => void;
+  editChatName: () => void;
+  shareChat: () => void;
 }
-export const ListItemControls = ({ chatId }: ListItemControlProps) => {
-  
-  const { editChatName, deleteChat, shareChat } = useChatFunctions();
-
-  const handleDelete = () => {
-    deleteChat(chatId)
-  }
-  const handleShare = () => {
-    shareChat("With my friend")
-  }
-  const handleEdit = () => {
-    editChatName("Now how about that?")
-  }
+export const ListItemControls = ({ chatId, deleteChat, editChatName, shareChat }: ListItemControlProps) => {
   
   return (
     <div className="list-item-controls">
-      <button className="ctrl-btn" onClick={handleShare}>
+      <button className="ctrl-btn" onClick={shareChat}>
        <FontAwesomeIcon icon={faArrowUpFromBracket} />
       </button>
     
-      <button className="ctrl-btn" onClick={handleEdit}>
+      <button className="ctrl-btn" onClick={editChatName}>
         <FontAwesomeIcon icon={faPen} />
       </button>
 
-      <button className="ctrl-btn" onClick={handleDelete}>
+      <button className="ctrl-btn" onClick={deleteChat}>
         <FontAwesomeIcon icon={faTrash} />
       </button>
 
