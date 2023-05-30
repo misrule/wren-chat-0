@@ -1,9 +1,12 @@
 import { useRef, useState } from "react";
+import TextareaAutosize from "react-textarea-autosize";
 
 interface PromptInputProps {
   newUserPrompt: (prompt: string) => void;
   generatingResponse: boolean;
 }
+// TODO: Add to user settings.
+const MAX_TEXTAREA_ROWS = 8;
 
 export const PromptInput = ({
   newUserPrompt,
@@ -37,13 +40,21 @@ export const PromptInput = ({
   return (
     <div>
       <fieldset className="flex gap-2" disabled={generatingResponse}>
-        <textarea
+        <TextareaAutosize
           ref={inputRef}
+          className="w-full resize-none rounded-md bg-gray-700 p-2 text-white
+          focus:border-emerald-500 focus:bg-gray-600 focus:outline-emerald-500"
+          minRows={2}
+          maxRows={MAX_TEXTAREA_ROWS}
+          onHeightChange={() => {
+            if (!userPrompt) {
+              setUserPrompt('');
+            }
+          }}
           value={generatingResponse ? "Thinking..." : userPrompt}
           onChange={(e) => setUserPrompt(e.target.value)}
           onKeyDown={handleKeyPress}
-          className="w-full resize-none rounded-md bg-gray-700 p-2 text-white
-        focus:border-emerald-500 focus:bg-gray-600 focus:outline-emerald-500"
+        
           placeholder={generatingResponse ? "" : "Send a message..."}
         />
         <button className="btn" onClick={handleSubmit} disabled={!userPrompt}>
