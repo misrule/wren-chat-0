@@ -1,8 +1,9 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 
 interface PromptInputProps {
   newUserPrompt: (prompt: string) => void;
+  userMessages: ChatMessage[];
   generatingResponse: boolean;
 }
 // TODO: Add to user settings.
@@ -10,11 +11,16 @@ const MAX_TEXTAREA_ROWS = 8;
 
 export const PromptInput = ({
   newUserPrompt,
+  userMessages,
   generatingResponse,
 }: PromptInputProps) => {
-
   const [userPrompt, setUserPrompt] = useState("");
+  const messageIndex = useRef(userMessages.length);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    messageIndex.current = userMessages.length;
+  }, [userMessages]);
 
   const handleSubmit = async () => {
     const input = userPrompt;
@@ -24,9 +30,31 @@ export const PromptInput = ({
   };
 
   const handleKeyPress = async (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault(); // prevent the default action (new line)
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
       await handleSubmit();
+    } else if (e.key === "ArrowUp" || (e.ctrlKey && e.key === "p")) {
+      e.preventDefault();
+      if (messageIndex.current === 0) {
+        setUserPrompt(userMessages[0].content);
+      }
+      if (messageIndex.current > 0) {
+        messageIndex.current -= 1;
+        setUserPrompt(userMessages[messageIndex.current].content);
+      }
+    } else if (e.key === "ArrowDown" || (e.ctrlKey && e.key === "n")) {
+      e.preventDefault();
+      if (messageIndex.current === userMessages.length - 1) {
+        setUserPrompt(userMessages[userMessages.length - 1].content);
+        messageIndex.current += 1;
+      }
+      if (messageIndex.current > userMessages.length - 1) {
+        setUserPrompt("");
+      }
+      if (messageIndex.current < userMessages.length - 1) {
+        messageIndex.current += 1;
+        setUserPrompt(userMessages[messageIndex.current].content);
+      }
     }
   };
 
@@ -48,13 +76,12 @@ export const PromptInput = ({
           maxRows={MAX_TEXTAREA_ROWS}
           onHeightChange={() => {
             if (!userPrompt) {
-              setUserPrompt('');
+              setUserPrompt("");
             }
           }}
           value={generatingResponse ? "Thinking..." : userPrompt}
           onChange={(e) => setUserPrompt(e.target.value)}
           onKeyDown={handleKeyPress}
-        
           placeholder={generatingResponse ? "" : "Send a message..."}
         />
         <button className="btn" onClick={handleSubmit} disabled={!userPrompt}>

@@ -14,12 +14,6 @@ import ChatHistory from "@/components/ChatHistory";
 
 import { ChatFunctionsProvider } from "@/context/ChatContext";
 
-interface ChatMessage {
-  _id: string;
-  role: string;
-  content: string;
-}
-
 interface Props {
   chatId: string;
   title: string;
@@ -145,52 +139,55 @@ export default function Chat({ chatId, title, messages = [] }: Props) {
   const handleDeleteChat = async (chatId: string) => {
     //console.log("DELETE-CHAT: ", chatId);
     const response = await fetch(`/api/chat/${chatId}`, {
-      method: "DELETE"
-    }); 
-  }
+      method: "DELETE",
+    });
+  };
   const handleEditChatName = async (newName: string) => {
     console.log("EDIT-CHAT-NAME: ", newName);
-  }
+  };
   const handleShareChate = async (email: string) => {
     console.log("SHARE-CHAT: ", email);
-  }
+  };
 
   const chatFunctions = {
     editChatName: handleEditChatName,
     deleteChat: handleDeleteChat,
-    shareChat: handleShareChate
-  }
+    shareChat: handleShareChate,
+  };
 
   // List of all messages in this chat, including the new messages we've
   // recieved from the model during this session.
   const allMessages = [...messages, ...newChatMessages];
+  // Filter for messages that have been sent by the user.
+  const userMessages = allMessages.filter((m) => m.role === "user");
 
   return (
     <ChatFunctionsProvider functions={chatFunctions}>
-    <div>
-      <Head>
-        <title>New Chat</title>
-      </Head>
+      <div>
+        <Head>
+          <title>New Chat</title>
+        </Head>
 
-      <div className="grid h-screen grid-cols-[260px_1fr]">
-        <ChatSidebar chatId={chatId} />
+        <div className="grid h-screen grid-cols-[260px_1fr]">
+          <ChatSidebar chatId={chatId} />
 
-        <div className="flex flex-col overflow-hidden bg-gray-700">
-          <ChatHistory
-            messages={allMessages}
-            incomingMessage={incomingMessage}
-            routeHasChanged={routeHasChanged}
-          />
-
-          <footer className="bg-gray-800 p-10">
-            <PromptInput
-              newUserPrompt={handleNewUserPrompt}
-              generatingResponse={generatingResponse}
+          <div className="flex flex-col overflow-hidden bg-gray-700">
+            <ChatHistory
+              messages={allMessages}
+              incomingMessage={incomingMessage}
+              routeHasChanged={routeHasChanged}
             />
-          </footer>
+
+            <footer className="bg-gray-800 p-10">
+              <PromptInput
+                newUserPrompt={handleNewUserPrompt}
+                userMessages={userMessages}
+                generatingResponse={generatingResponse}
+              />
+            </footer>
+          </div>
         </div>
       </div>
-    </div>
     </ChatFunctionsProvider>
   );
 }
