@@ -2,9 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+:root {
+  --header-height: 4rem;
+  --footer-height: 2rem;
+  --height-gap: calc(var(--header-height) + var(--footer-height));
+}
+}
+
 @layer components {
   .btn {
-    @apply rounded-md bg-emerald-500 px-4 py-2 text-white hover:bg-emerald-600 disabled:bg-emerald-300;
+    @apply rounded-md bg-emerald-500 px-4 py-2 text-white hover:bg-emerald-600 disabled:bg-emerald-500 disabled:cursor-not-allowed;
   }
 
   .side-menu-item {
@@ -29,4 +37,17 @@
     @apply text-[0.8em] text-white/40 pt-[5px] p-[3px] rounded-[50%] hover:text-white;
   }
 
+}
+
+.vertical_scroll::-webkit-scrollbar {
+  width: 0.5rem;
+} 
+.vertical_scroll::-webkit-scrollbar-track {
+  background-color: rgba(55, 65, 81, 1);
+  border-radius: 50px;
+  /* margin-block: 1em; */
+}
+.vertical_scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(110, 231, 183, 1);
+  border-radius: 50px;
 }

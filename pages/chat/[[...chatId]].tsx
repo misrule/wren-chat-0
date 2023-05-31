@@ -168,25 +168,25 @@ export default function Chat({ chatId, title, messages = [] }: Props) {
           <title>New Chat</title>
         </Head>
 
-        <div className="grid h-screen grid-cols-[260px_1fr]">
+        <div className="grid h-[calc(100vh-var(--height-gap))] grid-cols-[260px_1fr]">
           <ChatSidebar chatId={chatId} />
 
-          <div className="flex flex-col overflow-hidden bg-gray-700">
+          
+          <div className="flex flex-col overflow-hidden bg-gray-950 pr-12 pl-6
+          ">
             <ChatHistory
               messages={allMessages}
               incomingMessage={incomingMessage}
               routeHasChanged={routeHasChanged}
             />
-
-            <footer className="bg-gray-800 p-10">
-              <PromptInput
-                newUserPrompt={handleNewUserPrompt}
-                userMessages={userMessages}
-                generatingResponse={generatingResponse}
-              />
-            </footer>
+            <PromptInput
+              newUserPrompt={handleNewUserPrompt}
+              userMessages={userMessages}
+              generatingResponse={generatingResponse}
+            />
           </div>
-        </div>
+          </div>
+        
       </div>
     </ChatFunctionsProvider>
   );

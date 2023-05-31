@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 
@@ -66,13 +68,15 @@ export const PromptInput = ({
   }
 
   return (
-    <div>
-      <fieldset className="flex gap-2" disabled={generatingResponse}>
+<footer className="bg-gray-950 pl-4 pb-4 rounded-b-2xl">
+    <div className="p-8 bg-gray-700 rounded-b-2xl">
+      <fieldset className="flex gap-4" disabled={generatingResponse}>
         <TextareaAutosize
           ref={inputRef}
-          className="w-full resize-none rounded-md bg-gray-700 p-2 text-white
-          focus:border-emerald-500 focus:bg-gray-600 focus:outline-emerald-500"
-          minRows={2}
+          className="w-full resize-none rounded-2xl bg-gray-800 px-6 py-4 text-white
+          focus:border-emerald-500 focus:bg-gray-750 focus:outline-emerald-500
+          "
+          minRows={1}
           maxRows={MAX_TEXTAREA_ROWS}
           onHeightChange={() => {
             if (!userPrompt) {
@@ -84,10 +88,17 @@ export const PromptInput = ({
           onKeyDown={handleKeyPress}
           placeholder={generatingResponse ? "" : "Send a message..."}
         />
-        <button className="btn" onClick={handleSubmit} disabled={!userPrompt}>
+        <button className="text-white/80 text-lg rounded-xl
+        btn m-1 border border-transparent 
+        hover:border hover:border-white/30 hover:text-white" 
+        onClick={handleSubmit} disabled={!userPrompt}
+        >
+          {/* <FontAwesomeIcon  icon={faPaperPlane} /> */}
           Send
         </button>
       </fieldset>
+
     </div>
+    </footer>    
   );
 };

@@ -30,7 +30,7 @@ export default function ChatSidebar({ chatId }: Props) {
   }, [chatId]);
 
   return (
-    <div className="flex flex-col bg-gray-900 text-white">
+    <div className="flex flex-col bg-gray-950 text-white">
       
       {/* NEW CHAT BUTTON */}
       <Link
@@ -67,7 +67,9 @@ export default function ChatSidebar({ chatId }: Props) {
       </div>
       
       {/* LOGOUT BUTTON */}
-      <Link href="/api/auth/logout" className="side-menu-item">
+      <Link href="/api/auth/logout" 
+        className="side-menu-item border-t border-white/30 
+        px-4 pt-4 ">
         <FontAwesomeIcon icon={faRightFromBracket} />
         Logout
       </Link>

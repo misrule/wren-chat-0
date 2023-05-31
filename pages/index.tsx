@@ -18,7 +18,8 @@ export default function Home() {
         <title>WrenChat - Login or Signup</title>
       </Head>
 
-      <div className="flex min-h-screen w-full items-center justify-center bg-gray-800 text-center text-white">
+      <div className="flex h-[calc(100vh-var(--height-gap))] w-full items-center 
+        justify-center bg-gray-800 text-center text-white">
         <div>
           <div>
             <FontAwesomeIcon

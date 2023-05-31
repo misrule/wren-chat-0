@@ -1,5 +1,7 @@
 import NewChat from "../NewChat";
 import Message from "../Message";
+import UserMessage from "../Message/UserMessage/UserMessage";
+import AssistantMessage from "../Message/AssistantMessage/AssistantMessage";
 
 interface ChatMessage {
   _id: string;
@@ -15,7 +17,10 @@ type Props = {
 
 export const ChatHistory = ({ messages, incomingMessage, routeHasChanged }: Props) => {
   return (
-    <div className="flex flex-1 flex-col-reverse overflow-y-scroll text-white">
+    
+    <div className="flex flex-1 flex-col-reverse 
+    overflow-y-auto text-white
+    vertical_scroll ml-4 rounded-t-2xl">
       {/* INITIAL MESSAGE */}
       {messages.length === 0 && <NewChat />}
 
@@ -29,13 +34,20 @@ export const ChatHistory = ({ messages, incomingMessage, routeHasChanged }: Prop
                 the user is *already* scrolled to the bottom, but that's a bit more
                 complicated to implement.
               */}
-          {messages.map((message) => (
-            <Message
-              key={message._id}
-              role={message.role}
-              content={message.content}
-            />
-          ))}
+          {messages.map((message) => {
+            // <Message
+            //   key={message._id}
+            //   role={message.role}
+            //   content={message.content}
+            // />
+            if (message.role === "user") {
+              return <UserMessage key={message._id} 
+                content={message.content} role={""} />;
+            } else if (message.role === "assistant") {
+              return <AssistantMessage key={message._id} 
+                content={message.content} role={""} />;
+            }
+          })}
 
           {incomingMessage && (
             <div className="text-emerald-300">
@@ -55,5 +67,6 @@ export const ChatHistory = ({ messages, incomingMessage, routeHasChanged }: Prop
         </div>
       )}
     </div>
+    
   );
 };
