@@ -74,7 +74,7 @@ export const PromptInput = ({
         <TextareaAutosize
           ref={inputRef}
           className="w-full resize-none rounded-2xl bg-gray-800 px-6 py-4 text-white
-          focus:border-emerald-500 focus:bg-gray-700 focus:outline-emerald-500
+          focus:border-emerald-500 focus:bg-gray-750 focus:outline-emerald-500
           "
           minRows={1}
           maxRows={MAX_TEXTAREA_ROWS}

@@ -16,14 +16,14 @@ export const NewChat = () => {
         "
       />
       <h1 className="mt-4 text-4xl font-bold text-white/50">
-        Hello, Sy! &nbsp;How may I help you?
+        Hi!&nbsp;I'm Wren.&nbsp;How may I help you?
       </h1>
       <div
         className="mt-6 rounded-lg border border-blue-300/30
         p-2 tracking-wider text-blue-300/60"
       >
         <p className="font-mono text-xs">
-          Please note that I am an experimental AI. I might act weird sometimes.
+          Please note that I am an <span className="font-bold text-white/70">experimental</span> AI. Things could get weird.
         </p>
       </div>
       </div>
