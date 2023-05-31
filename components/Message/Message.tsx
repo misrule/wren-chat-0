@@ -1,8 +1,8 @@
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { faRobot } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Image from "next/image";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import Image from "next/image";
 
 type Props = {
   role: string;
@@ -15,11 +15,15 @@ export default function Message({ role, content }: Props) {
       className={`grid grid-cols-[30px_1fr] gap-5 p-5 
     ${
       role === "assistant"
-        ? "bg-gray-600"
+        ? "bg-gray-700 rounded-2xl"
         : role === "notice"
         ? "bg-red-600"
+        : role === "user"
+        ? "py-6"
         : ""
-    }`}
+    }
+    
+    `}
     >
       <div>
         {user && role === "user" && (
