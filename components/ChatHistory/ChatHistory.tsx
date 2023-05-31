@@ -19,7 +19,7 @@ export const ChatHistory = ({ messages, incomingMessage, routeHasChanged }: Prop
   return (
     
     <div className="flex flex-1 flex-col-reverse 
-    overflow-y-auto text-white
+    overflow-y-auto overflow-x-hidden text-white
     vertical_scroll ml-4 rounded-t-2xl">
       {/* INITIAL MESSAGE */}
       {messages.length === 0 && <NewChat />}

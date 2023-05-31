@@ -24,11 +24,11 @@ export const ChatListItem = ({ active, chatId, title }: ChatListItemProps) => {
   }
     
   return (
-    <div className="relative">
+    <div className="relative a">
       <Link
         key={chatId}
         href={`/chat/${chatId}`}
-        className={`m-2 flex items-center gap-4 rounded-md p-2 hover:bg-gray-800
+        className={`m-2 flex items-center gap-4 rounded-md rounded-r-2xl p-2 hover:bg-gray-800
         ${active ? "bg-gray-700" : ""}`}
       >
         <div className="chat-list-icon">
