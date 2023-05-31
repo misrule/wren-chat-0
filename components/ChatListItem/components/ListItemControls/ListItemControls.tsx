@@ -27,7 +27,7 @@ export const ListItemControls = ({ chatId, deleteChat, editChatName, shareChat }
         <FontAwesomeIcon icon={faTrash} />
       </button>
 
-      <button className="ctrl-btn vis">
+      <button className="ctrl-btn vis b">
         <FontAwesomeIcon icon={faEllipsisVertical} />
       </button>
     </div>

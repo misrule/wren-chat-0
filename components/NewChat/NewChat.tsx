@@ -8,13 +8,12 @@ export const NewChat = () => {
         justify-center overflow-hidden rounded-t-2xl
         bg-gray-700 text-center"
     >
-      <div className="p-12 bg-gray-800 rounded-2xl 
+      <div className="p-12 bg-gray-800 rounded-xl 
       shadow-lg">
-      <FontAwesomeIcon
+      {/* <FontAwesomeIcon
         icon={faRobot}
-        className="mb-2 text-6xl text-emerald-300
-        "
-      />
+        className="mb-2 text-6xl text-emerald-300"
+      /> */}
       <h1 className="mt-4 text-4xl font-bold text-white/50">
         Hi!&nbsp;I&apos;m Wren.&nbsp;How may I help you?
       </h1>

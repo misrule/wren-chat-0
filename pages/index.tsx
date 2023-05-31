@@ -19,7 +19,8 @@ export default function Home() {
       </Head>
 
       <div className="flex h-[calc(100vh-var(--height-gap))] w-full items-center 
-        justify-center bg-gray-800 text-center text-white">
+        justify-center text-center text-white
+        bg-gradient-to-t from-gray-950 to-gray-600">
         <div>
           <div>
             <FontAwesomeIcon
