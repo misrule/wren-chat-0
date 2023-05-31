@@ -16,7 +16,7 @@ export const NewChat = () => {
         "
       />
       <h1 className="mt-4 text-4xl font-bold text-white/50">
-        Hi!&nbsp;I'm Wren.&nbsp;How may I help you?
+        Hi!&nbsp;I&apos;m Wren.&nbsp;How may I help you?
       </h1>
       <div
         className="mt-6 rounded-lg border border-blue-300/30
