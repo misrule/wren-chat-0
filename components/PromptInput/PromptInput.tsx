@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
+import ResponseLoader from "../ResponseLoader";
 
 interface PromptInputProps {
   newUserPrompt: (prompt: string) => void;
@@ -69,7 +70,7 @@ export const PromptInput = ({
 
   return (
 <footer className="bg-gray-950 pl-4 pb-4 rounded-b-2xl">
-    <div className="p-8 bg-gray-700 rounded-b-2xl">
+    <div className="relative p-8 bg-gray-700 rounded-b-2xl">
       <fieldset className="flex gap-4" disabled={generatingResponse}>
         <TextareaAutosize
           ref={inputRef}
@@ -83,7 +84,7 @@ export const PromptInput = ({
               setUserPrompt("");
             }
           }}
-          value={generatingResponse ? "Thinking..." : userPrompt}
+          value={generatingResponse ? "" : userPrompt}
           onChange={(e) => setUserPrompt(e.target.value)}
           onKeyDown={handleKeyPress}
           placeholder={generatingResponse ? "" : "Send a message..."}
@@ -97,7 +98,7 @@ export const PromptInput = ({
           Send
         </button>
       </fieldset>
-
+      { generatingResponse && <ResponseLoader /> }
     </div>
     </footer>    
   );

@@ -14,7 +14,12 @@
   .btn {
     @apply rounded-md bg-emerald-500 px-4 py-2 text-white hover:bg-emerald-600 disabled:bg-emerald-500 disabled:cursor-not-allowed;
   }
-
+  .btn2 {
+    @apply bg-gradient-to-r from-orange-400 to-rose-400;
+  }
+  .btn3 {
+    @apply bg-gradient-to-r from-emerald-500 via-green-400 to-emerald-600 bg-no-repeat;
+  }
   .side-menu-item {
     @apply m-2 p-2 flex items-center gap-4 rounded-md hover:bg-gray-800;
   }
@@ -39,6 +44,12 @@
     @apply text-[0.8em] text-gray-950 pt-[5px] p-[3px] rounded-[50%] hover:text-white;
   }
 
+  .loading-dot {
+    @apply w-2 aspect-square rounded-[50%] bg-fixed;
+  }
+  .gradient-1 {
+    @apply bg-[length:4rem_5rem] bg-gradient-to-r from-teal-500 via-purple-500 to-orange-500;
+  }
 }
 .a:hover .b {
   color: white;
@@ -55,4 +66,20 @@
 .vertical_scroll::-webkit-scrollbar-thumb {
   background-color: rgba(110, 231, 183, 1);
   border-radius: 50px;
+}
+
+.p5 {
+  animation-delay: .5s;
+}
+.p4 {
+  animation-delay: .4s;
+}
+.p3 {
+  animation-delay: .3s;
+}
+.p2 {
+  animation-delay: .2s;
+}
+.p1 {
+  animation-delay: .1s;
 }

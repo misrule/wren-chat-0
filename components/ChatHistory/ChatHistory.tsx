@@ -1,13 +1,5 @@
 import NewChat from "../NewChat";
-import Message from "../Message";
-import UserMessage from "../Message/UserMessage/UserMessage";
-import AssistantMessage from "../Message/AssistantMessage/AssistantMessage";
-
-interface ChatMessage {
-  _id: string;
-  role: string;
-  content: string;
-}
+import { AssistantMessage, UserMessage, Message } from "../Message";
 
 type Props = {
   messages: ChatMessage[];
@@ -15,12 +7,17 @@ type Props = {
   routeHasChanged: boolean;
 };
 
-export const ChatHistory = ({ messages, incomingMessage, routeHasChanged }: Props) => {
+export const ChatHistory = ({
+  messages,
+  incomingMessage,
+  routeHasChanged,
+}: Props) => {
   return (
-    
-    <div className="flex flex-1 flex-col-reverse 
-    overflow-y-auto overflow-x-hidden text-white
-    vertical_scroll ml-4 rounded-t-2xl">
+    <div
+      className="vertical_scroll ml-4 flex 
+    flex-1 flex-col-reverse overflow-y-auto
+    overflow-x-hidden rounded-t-2xl text-white"
+    >
       {/* INITIAL MESSAGE */}
       {messages.length === 0 && <NewChat />}
 
@@ -35,23 +32,28 @@ export const ChatHistory = ({ messages, incomingMessage, routeHasChanged }: Prop
                 complicated to implement.
               */}
           {messages.map((message) => {
-            // <Message
-            //   key={message._id}
-            //   role={message.role}
-            //   content={message.content}
-            // />
             if (message.role === "user") {
-              return <UserMessage key={message._id} 
-                content={message.content} role={""} />;
+              return (
+                <UserMessage
+                  key={message._id}
+                  content={message.content}
+                  role={""}
+                />
+              );
             } else if (message.role === "assistant") {
-              return <AssistantMessage key={message._id} 
-                content={message.content} role={""} />;
+              return (
+                <AssistantMessage
+                  key={message._id}
+                  content={message.content}
+                  role={""}
+                />
+              );
             }
           })}
 
           {incomingMessage && (
             <div className="text-emerald-300">
-            <Message role="assistant" content={`${'[bot]' + incomingMessage}`} />
+              <AssistantMessage role="assistant" content={incomingMessage} />
             </div>
           )}
 
@@ -59,14 +61,13 @@ export const ChatHistory = ({ messages, incomingMessage, routeHasChanged }: Prop
                 while the model is sending the response. I think the solution is to just disallow it.
                 (i.e. Disable the sidebar while the model is sending a response.) */}
           {incomingMessage && routeHasChanged && (
-                  <Message
-                    role="notice"
-                    content="One message at a time. Please allow responses to finish before sending another message."
-                  />
-                )}
+            <Message
+              role="notice"
+              content="One message at a time. Please allow responses to finish before sending another message."
+            />
+          )}
         </div>
       )}
     </div>
-    
   );
 };
