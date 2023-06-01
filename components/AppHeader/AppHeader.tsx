@@ -8,7 +8,7 @@ export default function AppHeader({}: Props) {
         <div className="w-6 h-6 bg-slate-800">
           {/* menu icon goes here*/}
         </div>
-        <div className="text-xl text-white/80 hover:text-white">
+        <div className="text-xl text-white/80 font-medium hover:text-white">
           WrenChat
         </div>
         <div className="text-xs text-blue-300 font-mono border rounded-md border-blue-300 px-2 py-0">
